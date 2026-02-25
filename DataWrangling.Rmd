@@ -22,15 +22,22 @@ Sandy_wq<- read.csv(here('Data/Raw/Sandy_water_quality_data.csv'),
 ```
 
 ```{r}
-#Initial data exploration
+#Data Wrangling
 Ellerbe_wq$Dissolved_oxygen_mg.L <-
   as.numeric(as.character(Ellerbe_wq$Dissolved_oxygen_mg.L))
 
+Sandy_wq$Dissolved_oxygen_mg.L <-
+  as.numeric(as.character(Sandy_wq$Dissolved_oxygen_mg.L))
+
 Ellerbe_wq$Sample_date<-as.Date(Ellerbe_wq$Sample_date,format="%m/%d/%Y")
+Sandy_wq$Sample_date<-as.Date(Sandy_wq$Sample_date,format="%m/%d/%Y")
 
 #add a year column
 Ellerbe_wq$year <- format(Ellerbe_wq$Sample_date, "%Y")
+Sandy_wq$year <- format(Sandy_wq$Sample_date, "%Y")
+```
 
+```{r}
 #Plot Dissolved Oxygen in Ellerbe over the years
 ggplot(Ellerbe_wq, aes(x=Sample_date,
                        y=Dissolved_oxygen_mg.L, color=year))+
