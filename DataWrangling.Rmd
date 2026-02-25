@@ -1,0 +1,21 @@
+---
+title: "Data Wrangling"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(here)
+
+getwd()
+```
+
+```{r load data}
+#read in all data
+Ellerbe_wq <- read.csv(here('Data/Raw/Ellerbe_water_quality_data.csv'), 
+                    stringsAsFactors = TRUE)
+Sandy_wq<- read.csv(here('Data/Raw/Sandy_water_quality_data.csv'), 
+                    stringsAsFactors = TRUE)
+```
