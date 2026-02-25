@@ -1,0 +1,51 @@
+---
+title: "Question_1"
+author: "Addisen Antonucci"
+date: "2026-02-25"
+output: pdf_document
+---
+
+
+```{r}
+#Plot Dissolved Oxygen in Ellerbe over the years
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(x = "Sample Date",
+y = "Dissolved Oxygen mg/L")+
+   scale_y_continuous(breaks = c(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0))+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  theme_bw()
+```
+
+
+```{r}
+#Plot Daily mean Flow in Ellerbe over the years
+#
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Daily_mean_flow_cfs, color=year))+
+  geom_point()+
+   labs(x = "Sample Date",
+y = "Daily Mean Flow cfs")+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  facet_wrap(~year)+
+  theme_bw()
+```
+
+
+```{r}
+#Plot Dissolved Oxygen in Ellerbe over the years
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(x = "Sample Date",
+y = "Dissolved Oxygen mg/L")+
+   scale_y_continuous(breaks = c(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0))+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  theme_bw()
+```
+```
+
