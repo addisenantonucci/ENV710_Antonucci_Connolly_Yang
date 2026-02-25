@@ -8,6 +8,7 @@ output: pdf_document
 library(tidyverse)
 library(lubridate)
 library(here)
+library(scales)
 
 getwd()
 ```
@@ -19,3 +20,26 @@ Ellerbe_wq <- read.csv(here('Data/Raw/Ellerbe_water_quality_data.csv'),
 Sandy_wq<- read.csv(here('Data/Raw/Sandy_water_quality_data.csv'), 
                     stringsAsFactors = TRUE)
 ```
+
+```{r}
+#Initial data exploration
+Ellerbe_wq$Dissolved_oxygen_mg.L <-
+  as.numeric(as.character(Ellerbe_wq$Dissolved_oxygen_mg.L))
+
+Ellerbe_wq$Sample_date<-as.Date(Ellerbe_wq$Sample_date,format="%m/%d/%Y")
+
+#add a year column
+Ellerbe_wq$year <- format(Ellerbe_wq$Sample_date, "%Y")
+
+#Plot Dissolved Oxygen in Ellerbe over the years
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(x = "Sample Date",
+y = "Dissolved Oxygen mg/L")+
+   scale_y_continuous(breaks = c(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0))+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  theme_bw()
+```
+
