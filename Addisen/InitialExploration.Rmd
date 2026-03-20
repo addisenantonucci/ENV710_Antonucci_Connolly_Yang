@@ -1,0 +1,136 @@
+---
+title: "Initial Exploration"
+author: "Addisen Antonucci, Liam Connolly, Esther Yang"
+date: "2026-03-19"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(here)
+library(scales)
+
+getwd()
+```
+
+
+```{r}
+#Plot Dissolved Oxygen in Ellerbe over the years
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(title = "Dissolved Oxygen (mg/L) in Ellerbe River, NC",
+        x = "Year",
+y = "Dissolved Oxygen mg/L")+
+   scale_y_continuous(breaks = c(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0))+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  theme_bw()
+
+```
+
+
+```{r}
+#Plot Dissolved Oxygen in Sandy over the years
+ggplot(Sandy_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(title = "Dissolved Oxygen (mg/L) in Sandy River, NC",
+             x = "Year",
+y = "Dissolved Oxygen mg/L")+
+   scale_y_continuous(breaks = c(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0))+
+   scale_x_date( breaks = date_breaks("1 year"),
+                 labels = date_format("%Y"))+ 
+  theme_bw()
+```
+
+#Dissolved Oxygen by River
+```{r}
+#Plot Dissolved Oxygen in Ellerbe each year facet wrapped
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(title = "Dissolved Oxygen (mg/L) in Ellerbe River, NC",
+        x = "Sample Year",
+y = "Dissolved Oxygen (mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+  scale_x_date(date_labels = "%b") +  
+  theme_bw()
+```
+
+```{r}
+#Plot Dissolved Oxygen in Sandy each year facet wrapped
+ggplot(Sandy_wq, aes(x=Sample_date,
+                       y=Dissolved_oxygen_mg.L, color=year))+
+  geom_point()+
+   labs(title = "Dissolved Oxygen (mg/L) in Sandy River, NC",
+        x = "Sample Year",
+y = "Dissolved Oxygen (mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+    scale_x_date(date_labels = "%b") + 
+  theme_bw()
+```
+
+#Phosphorous by River
+```{r}
+#Plot Phosphorous in Ellerbe each year
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Phosphorus_unfiltered_mg.L_P, color=year))+
+  geom_point()+
+   labs(title = "Phosphorous (mg/L)in Ellerbe River, NC",
+        x = "Sample Year",
+y = "Phosphorous (mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+    scale_x_date(date_labels = "%b") + 
+  theme_bw()
+```
+
+```{r}
+#Plot Phosphorous in Sandy each year
+ggplot(Sandy_wq, aes(x=Sample_date,
+                       y=Phosphorus_unfiltered_mg.L_P, color=year))+
+  geom_point()+
+   labs(title = "Phosphorous (mg/L) in Sandy River, NC",
+        x = "Sample Year",
+y = "Phosphorous(mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+    scale_x_date(date_labels = "%b") + 
+  theme_bw()
+```
+
+#Nitrogen
+```{r}
+#Plot Nitrogen in Sandy each year
+ggplot(Sandy_wq, aes(x=Sample_date,
+                       y=Total.nitrogen_computed_mg.L_N, color=year))+
+  geom_point()+
+   labs(title = "Nitrogen (mg/L) in Sandy River, NC",
+        x = "Sample Year",
+y = "Nitrogen (mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+    scale_x_date(date_labels = "%b") + 
+  theme_bw()
+```
+
+```{r}
+#Plot Nitrogen in Ellerbe each year
+ggplot(Ellerbe_wq, aes(x=Sample_date,
+                       y=Total.nitrogen_computed_mg.L_N, color=year))+
+  geom_point()+
+   labs(title = "Nitrogen (mg/L) in Ellerbe River, NC",
+        x = "Sample Year",
+y = "Nitrogen (mg/L)")+
+   facet_wrap(~year, scales = "free_x")+
+    scale_x_date(date_labels = "%b") + 
+  theme_bw()
+```
+
+```{r}
+# Export 
+write.csv(Ellerbe_wq, here("Data/Processed/Ellerbe_wq_clean.csv"), row.names = FALSE)
+
+write.csv(Sandy_wq, here("Data/Processed/Sandy_wq_clean.csv"), row.names = FALSE)
+```
+

@@ -16,7 +16,7 @@ output: pdf_document
 #Attribution
 Liam: Wrote initial abstract
 
-Addisen: Set up Github
+Addisen: Set up Github, initial figures
 
 Esther:
 

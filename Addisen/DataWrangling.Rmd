@@ -1,0 +1,116 @@
+---
+title: "Data Wrangling"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(here)
+library(scales)
+
+getwd()
+```
+
+```{r load data}
+#read in all data
+Ellerbe_wq <- read.csv(here('Data/Raw/Ellerbe_water_quality_data.csv'), 
+                    stringsAsFactors = TRUE)
+Sandy_wq<- read.csv(here('Data/Raw/Sandy_water_quality_data.csv'), 
+                    stringsAsFactors = TRUE)
+```
+
+```{r}
+#Change Sample Date to date
+Ellerbe_wq$Sample_date<-as.Date(Ellerbe_wq$Sample_date,format="%m/%d/%Y")
+Sandy_wq$Sample_date<-as.Date(Sandy_wq$Sample_date,format="%m/%d/%Y")
+
+#add a year column
+Ellerbe_wq$year <- format(Ellerbe_wq$Sample_date, "%Y")
+Sandy_wq$year <- format(Sandy_wq$Sample_date, "%Y")
+
+#Data Wrangling
+#dissolved oxygen
+Ellerbe_wq$Dissolved_oxygen_mg.L <-
+  as.numeric(as.character(Ellerbe_wq$Dissolved_oxygen_mg.L))
+
+Sandy_wq$Dissolved_oxygen_mg.L <-
+  as.numeric(as.character(Sandy_wq$Dissolved_oxygen_mg.L))
+
+#Daily Mean Flow
+Ellerbe_wq$Instantaneous_flow_cfs <-
+  as.numeric(as.character(Ellerbe_wq$Instantaneous_flow_cfs))
+
+Sandy_wq$Instantaneous_flow_cfs <-
+  as.numeric(as.character(Sandy_wq$Instantaneous_flow_cfs))
+
+#Temperature
+Ellerbe_wq$Water_temperature_C <-
+  as.numeric(as.character(Ellerbe_wq$Water_temperature_C))
+
+Sandy_wq$Water_temperature_C <-
+  as.numeric(as.character(Sandy_wq$Water_temperature_C))
+
+```
+
+
+```{r}
+#removing weird symbols and converting to numeric
+Ellerbe_wq <- Ellerbe_wq %>%
+  mutate(
+    Phosphorus_unfiltered_mg.L_P = as.character(Phosphorus_unfiltered_mg.L_P), 
+    Phosphorus_unfiltered_mg.L_P = str_remove_all(Phosphorus_unfiltered_mg.L_P, "<"),
+    Phosphorus_unfiltered_mg.L_P = if_else(
+      str_detect(Phosphorus_unfiltered_mg.L_P, "E"),
+      NA_character_,
+      Phosphorus_unfiltered_mg.L_P
+    ),
+    Phosphorus_unfiltered_mg.L_P = as.numeric(Phosphorus_unfiltered_mg.L_P) 
+  )
+
+Sandy_wq <- Sandy_wq %>%
+  mutate(
+    Phosphorus_unfiltered_mg.L_P = as.character(Phosphorus_unfiltered_mg.L_P), 
+    Phosphorus_unfiltered_mg.L_P = str_remove_all(Phosphorus_unfiltered_mg.L_P, "<"),
+    Phosphorus_unfiltered_mg.L_P = if_else(
+      str_detect(Phosphorus_unfiltered_mg.L_P, "E"),
+      NA_character_,
+      Phosphorus_unfiltered_mg.L_P
+    ),
+    Phosphorus_unfiltered_mg.L_P = as.numeric(Phosphorus_unfiltered_mg.L_P) 
+  )
+
+Ellerbe_wq <- Ellerbe_wq %>%
+  mutate(
+    Total.nitrogen_computed_mg.L_N = as.character(Total.nitrogen_computed_mg.L_N), 
+    Total.nitrogen_computed_mg.L_N = str_remove_all(Total.nitrogen_computed_mg.L_N, "<"),
+    Total.nitrogen_computed_mg.L_N = if_else(
+      str_detect(Total.nitrogen_computed_mg.L_N, "E"),
+      NA_character_,
+      Total.nitrogen_computed_mg.L_N
+    ),
+    Total.nitrogen_computed_mg.L_N = as.numeric(Total.nitrogen_computed_mg.L_N) 
+  )
+
+
+Sandy_wq <- Sandy_wq %>%
+  mutate(
+    Total.nitrogen_computed_mg.L_N = as.character(Total.nitrogen_computed_mg.L_N), 
+    Total.nitrogen_computed_mg.L_N = str_remove_all(Total.nitrogen_computed_mg.L_N, "<"),
+    Total.nitrogen_computed_mg.L_N = if_else(
+      str_detect(Total.nitrogen_computed_mg.L_N, "E"),
+      NA_character_,
+      Total.nitrogen_computed_mg.L_N
+    ),
+    Total.nitrogen_computed_mg.L_N = as.numeric(Total.nitrogen_computed_mg.L_N) 
+  )
+```
+
+```{r}
+#removing useless columns
+Sandy_wq <- Sandy_wq[, -c(18, 19,20)]
+Ellerbe_wq <- Ellerbe_wq[, -c(17, 18)]
+```
